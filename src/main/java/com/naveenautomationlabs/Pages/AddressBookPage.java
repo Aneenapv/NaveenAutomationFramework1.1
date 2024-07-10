@@ -1,17 +1,20 @@
 package com.naveenautomationlabs.Pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.naveenautomationlabs.TestBase.TestBase;
 
 public class AddressBookPage extends TestBase {
-	
+	WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
 	public AddressBookPage()
 	{
 		PageFactory.initElements(driver,this);
@@ -71,30 +74,39 @@ public class AddressBookPage extends TestBase {
 	}
 	
 	
+//	@FindBy(xpath="//select[@name='country_id']")  
+//	WebElement clickOnCountry;
+//	
+//	public void clickOnCountry()
+//	{
+//		
+//		Select selectObject1 = new Select(clickOnCountry);
+//		selectObject1.selectByVisibleText("Canada");
+//	}
+//		
+//	@FindBy(xpath="//select[@name='zone_id']")
+//	WebElement clickOnState;
+//	
+//	public void clickOnState()
+//	{
+//		Select selectObject2 = new Select(clickOnState);
+//		List<WebElement> options = selectObject2.getOptions();
+//		
+//		for(WebElement e:options)
+//		{
+//			//System.out.println(e.getText());
+//		}
+//		selectObject2.selectByVisibleText("Ontario");
+//	}
+	
+	
 	@FindBy(xpath="//select[@name='country_id']")  
 	WebElement clickOnCountry;
-	
-	public void clickOnCountry()
-	{
-		
-		Select selectObject1 = new Select(clickOnCountry);
-		selectObject1.selectByVisibleText("Canada");
-	}
-		
 	@FindBy(xpath="//select[@name='zone_id']")
 	WebElement clickOnState;
 	
-	public void clickOnState()
-	{
-		Select selectObject2 = new Select(clickOnState);
-		List<WebElement> options = selectObject2.getOptions();
-		
-		for(WebElement e:options)
-		{
-			//System.out.println(e.getText());
-		}
-		selectObject2.selectByVisibleText("Ontario");
-	}
+	
+	
 	
 	@FindBy(xpath="//input[@value='Continue']")
 	WebElement clickContinue;
@@ -122,8 +134,12 @@ public class AddressBookPage extends TestBase {
 	clickOnAddressLine();
 	clickOnCity();
 	clickOnPostCode();
-	clickOnCountry();
-	clickOnState();
+	//wait.until(ExpectedConditions.visibilityOf(clickOnCountry));
+	selectDropdown(clickOnCountry,"38","Canada");
+	wait.until(ExpectedConditions.textToBePresentInElement(clickOnCountry,"Canada"));
+	selectDropdown(clickOnState,"610","Ontario");
+	//clickOnCountry();
+	//clickOnState();
 	clickContinue();
     }
 	

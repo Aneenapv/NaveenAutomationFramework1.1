@@ -40,7 +40,8 @@ public class WishListPageTest extends TestBase {
 		 monitorsPage.monitorsAddedToWishList();
 		 
 		 WishListPage wishListPage= myAccountPage.clickOnWishList();
-		 wishListPage.wishListRemove();
+		 //wishListPage.wishListRemove();
+		 wishListPage.removeAllProducts();
 	    
 	  
 		String EmptyWishListAlertText= wishListPage.getEmptyWishListAlert();

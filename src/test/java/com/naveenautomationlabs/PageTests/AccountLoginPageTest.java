@@ -1,11 +1,15 @@
 package com.naveenautomationlabs.PageTests;
 
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.naveenautomationlabs.Pages.AccountLoginPage;
+import com.naveenautomationlabs.Pages.AccountRegisterPage;
 import com.naveenautomationlabs.Pages.AddressBookPage;
 import com.naveenautomationlabs.Pages.ChangePasswordPage;
 import com.naveenautomationlabs.Pages.ForgotYourPasswordPage;
@@ -14,6 +18,7 @@ import com.naveenautomationlabs.Pages.MyAccountPage;
 import com.naveenautomationlabs.Pages.NewsletterSubscriptionPage;
 import com.naveenautomationlabs.Pages.YourAffliateInformationPage;
 import com.naveenautomationlabs.TestBase.TestBase;
+import com.naveenautomationlabs.Utils.ExcelUtils;
 
 public class AccountLoginPageTest extends TestBase{
 	
@@ -26,6 +31,7 @@ public class AccountLoginPageTest extends TestBase{
 	ChangePasswordPage changePasswordPage;
 	MyAccountInformationPage editAccountPage;
 	YourAffliateInformationPage yourAffliateInformationPage;
+	AccountRegisterPage accountRegisterPage;
 	
 	@BeforeMethod
 	public void setup()
@@ -34,47 +40,42 @@ public class AccountLoginPageTest extends TestBase{
 		loginPage= new AccountLoginPage();
 	}
 	
+	
+	//@Test(dataProvider = "Book1")
+	public void validateLoginWithValidCredentials(String email, String pwd) {
+		myAccountPage = loginPage.loginToMyAccount(email, pwd);
+		//String getMyAccountText = myAccountPage.getMyAccountText();
+		//Assert.assertEquals("My Account", getMyAccountText);
+	}
+	
+	
+	//@DataProvider(name ="Book1")
+	private String[][] loginInfoProvider() throws IOException {
+		String filePath = "C:\\Users\\johng\\OneDrive\\Desktop\\Book1.xlsx";
+		int rowCount = ExcelUtils.getRowCount(filePath, "Sheet1");
+		int colCount = ExcelUtils.getColumnCount(filePath, "Sheet1", rowCount);
+		String[][] loginData = new String[rowCount][colCount];
+		for (int i = 1; i <= rowCount; i++) {
+			for (int j = 0; j < colCount; j++) {
+				loginData[i - 1][j] = ExcelUtils.getCellValue(filePath, "Sheet1", i, j);
+			}
+		}
+		return loginData;
+	}
+	
+	
+	
 	@Test
 	public void validateLoginWithValidCredentials()
 	{
 		MyAccountPage myAccountPage = loginPage.loginToMyAccount("centanvin68@gmail.com","Password@1234");
 		String getMyAccountText = myAccountPage.getMyAccountText();
 		Assert.assertEquals("My Account", getMyAccountText,"Not matching with My Account text");
-		
-		
-//		NewsletterSubscriptionPage newsletterSubscriptionPage= myAccountPage.newsLetter();
-//		newsletterSubscriptionPage.newsLetterSubscription();
-//		String newsLetterAlertBannerText = newsletterSubscriptionPage.getNewsLetterAlertBanner();
-//		Assert.assertEquals("Success: Your newsletter subscription has been successfully updated!", newsLetterAlertBannerText, "Not matching news letter yes alert banner message");
-//		
-//		AddressBookPage addressBookPage = myAccountPage.clickOnAddressBook();
-//		addressBookPage.formElementsOnAddressBook();
-//		String addressBookAlertSuccessBannerText = addressBookPage.addressBookSuccessAlertBanner();
-//		Assert.assertEquals("Your address has been successfully added", addressBookAlertSuccessBannerText,"Not matching text on address book page");
-		
-		
-		//ChangePasswordPage changePasswordPage =  myAccountPage.clickOnPassword();
-		//changePasswordPage.changePassword();
-		//String changePasswordAlertText =  myAccountPage.getChangePasswordAlert();
-		//Assert.assertEquals("Success: Your password has been successfully updated.",changePasswordAlertText ,"Not matching text");
-		
-//		MyAccountInformationPage editAccountPage =  myAccountPage.clickOnEditAccount();
-//		editAccountPage.MyAccountInformation();
-//		String editAccountAlertText =  myAccountPage.getEditAccountSuccessAlert();
-//		Assert.assertEquals("Success: Your account has been successfully updated.",editAccountAlertText ,"Not matching text");
-//		
-//		YourAffliateInformationPage yourAffliateInformationPage = myAccountPage.clickOnAffliateAccount();
-//		yourAffliateInformationPage.affliateAccount();
-//		String affliateAccountAlertText =  myAccountPage.getaffliateAccountSuccessAlert();
-//		Assert.assertEquals("Success: Your account has been successfully updated.",affliateAccountAlertText ,"Not matching text");
-//		
-	
-		
-		
 		myAccountPage.logout();
 		
 		//Assert.assertEquals("My Account",driver.getTitle());
 	}
+	
 	
 	@Test
 	public void validateLoginWithInvalidCredentials()
@@ -103,6 +104,14 @@ public class AccountLoginPageTest extends TestBase{
 		
 	}
 	
+	@Test
+	public void validateNewCustomerRegisterAccount()
+	{
+		accountRegisterPage = loginPage.newCustomerContinueButton();
+		String getRegisterAccountPageHeading = accountRegisterPage.getRegisterAccountHeading();
+		Assert.assertEquals("Register Account",getRegisterAccountPageHeading,"Not match with Heading");
+	}
+	
 	
 	
 	
@@ -111,7 +120,6 @@ public class AccountLoginPageTest extends TestBase{
 	{
 		tearDown();
 	}
-	
 	
 
 }

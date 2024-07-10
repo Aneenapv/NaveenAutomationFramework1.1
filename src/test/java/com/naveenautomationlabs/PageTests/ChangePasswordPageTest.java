@@ -28,7 +28,7 @@ public class ChangePasswordPageTest extends TestBase {
 	@Test
 	public void loginAndAddressBookValidate()
 	{
-		MyAccountPage myAccountPage =loginPage.loginToMyAccount("centanvin68@gmail.com","Password@12345");
+		MyAccountPage myAccountPage =loginPage.loginToMyAccount("centanvin68@gmail.com","Password@1234");
 		String getMyAccountText = myAccountPage.getMyAccountText();
 		Assert.assertEquals("My Account", getMyAccountText,"Not matching with My Account text");
 		

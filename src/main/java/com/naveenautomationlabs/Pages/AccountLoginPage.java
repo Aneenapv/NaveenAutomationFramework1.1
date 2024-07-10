@@ -74,6 +74,15 @@ public class AccountLoginPage extends TestBase{
 	}
 	
 	
+	@FindBy(xpath="//a[@class='btn btn-primary']")
+	WebElement newCustomerContinueButton;
+	public AccountRegisterPage  newCustomerContinueButton()
+	{
+		 newCustomerContinueButton.click();
+		 return new AccountRegisterPage();
+	}
+	
+	
 	
 	
 

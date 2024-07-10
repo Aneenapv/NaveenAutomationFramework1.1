@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.naveenautomationlabs.TestBase.TestBase;
 
 public class MonitorsPage extends TestBase{
-	WebDriverWait wait;
 	
 	public MonitorsPage()
 	{
@@ -57,9 +56,7 @@ public class MonitorsPage extends TestBase{
 	{
 		appleCinemaToWishList();
 		samsungSyncMasterToWishList();
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		clickOnMyAccountFromMonitorPage();
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		selectOnMyAccountFromMonitorPage();
 	}
 

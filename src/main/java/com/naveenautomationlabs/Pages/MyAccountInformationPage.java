@@ -19,8 +19,9 @@ public class MyAccountInformationPage extends TestBase {
      
 	public void editFirstName()
 	{
-		editFirstName.clear();
-		editFirstName.sendKeys("Akhil");
+		//editFirstName.clear();
+		//editFirstName.sendKeys("Akhil");
+		fillTransferForm(editFirstName,"Akhil");
 	}
 	
 	@FindBy(xpath="//input[@value='Continue']")

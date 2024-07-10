@@ -1,12 +1,18 @@
 package com.naveenautomationlabs.Pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.naveenautomationlabs.TestBase.TestBase;
 
 public class YourAffliateInformationPage extends TestBase{
+	
+	WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(20));
 	
 	public  YourAffliateInformationPage()
 	{
@@ -18,8 +24,9 @@ public class YourAffliateInformationPage extends TestBase{
 	
 	public void companyName()
 	{
-		companyName.clear();
-		companyName.sendKeys("ServicePro");
+		//companyName.clear();
+		//companyName.sendKeys("ServicePro");
+		fillTransferForm(companyName,"ServicePro");
 	}
 	
 	@FindBy(xpath="//input[@id='input-website']")
@@ -27,8 +34,9 @@ public class YourAffliateInformationPage extends TestBase{
 	
 	public void companyWebsite()
 	{
-		companyWebsite.clear();
-		companyWebsite.sendKeys("www.servicepro.ca");
+		//companyWebsite.clear();
+		//companyWebsite.sendKeys("www.servicepro.ca");
+		fillTransferForm(companyWebsite,"www.servicepro.ca");
 	}
 	
 	@FindBy(xpath="//input[@id='input-tax']")
@@ -36,8 +44,9 @@ public class YourAffliateInformationPage extends TestBase{
 	
 	public void companyTaxId()
 	{
-		companyTaxId.clear();
-		companyTaxId.sendKeys("22091");
+		//companyTaxId.clear();
+		//companyTaxId.sendKeys("22091");
+		fillTransferForm(companyTaxId,"22091");
 	}
 	
 	
@@ -54,8 +63,10 @@ public class YourAffliateInformationPage extends TestBase{
 	
 	public void companyPaypalEmailAccount()
 	{
-		companyPaypalEmailAccount.clear();
-		companyPaypalEmailAccount.sendKeys("servicepro@servicepro.ca");
+		//companyPaypalEmailAccount.clear();
+		//companyPaypalEmailAccount.sendKeys("servicepro@servicepro.ca");
+		fillTransferForm(companyPaypalEmailAccount,"servicepro@servicepro.ca");
+		
 	}
 	
 //	@FindBy(xpath="//input[@name='agree']")
@@ -74,12 +85,14 @@ public class YourAffliateInformationPage extends TestBase{
 		companyContinue.click();
 	}
 	
+	
 	public void affliateAccount()
 	{
 		companyName();
 		companyWebsite();
 		companyTaxId();
 		companyPaymentMethod();
+	    wait.until(ExpectedConditions.visibilityOf(companyPaypalEmailAccount));
 		companyPaypalEmailAccount();
 		//companyAgree();
 		companyContinue();
