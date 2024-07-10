@@ -31,9 +31,9 @@ public class TestBase {
 	//private final String browser = "chrome";
 	
 	// introduced enum.. browsers is class name for enums. 
-	//enums are constant so that we can call by classnamme.enumvalue
+	//enums are constant so that we can call by classname.enumvalue
 	
-	private final Browsers browser = Browsers.CHROME;
+	private Browsers BROWSER;   //= Browsers.CHROME;
 	private final String URL="https://naveenautomationlabs.com/opencart/index.php?route=account/login";
 	
 	public static Logger logger;
@@ -44,9 +44,10 @@ public class TestBase {
 	
 	public void initialise()
 	{
+		setBrowser();
 		initialiseWebdriver();
 		driver.manage().window().maximize();
-	   //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 		driver.get(URL);
 		
 	}
@@ -60,47 +61,43 @@ public class TestBase {
 		logger.setLevel(Level.ALL);
 	}
 
-
+	private void setBrowser(){
+		
+		String browser = System.getProperty("browser","CHROME").toUpperCase();
+		try
+		{
+		  BROWSER = Browsers.valueOf(browser);
+		}
+		catch(IllegalArgumentException e)
+		{
+			throw new InvalidArgumentException("Enter correct browser name");
+		}
+	}
+	
+	private void setBrowserOptions(Object options)
+	{
+		if(System.getProperty("incognito","false").equals("true"))
+		{
+			if(options instanceof ChromeOptions)
+			{
+				((ChromeOptions)options).addArguments("--incognito");
+			}
+			else if(options instanceof FirefoxOptions)
+			{
+				((FirefoxOptions)options).addArguments("-private");
+			}
+			else if(options instanceof EdgeOptions)
+			{
+				((EdgeOptions)options).addArguments("inprivate");
+			}
+		}
+	}
+	
+	
 	private void initialiseWebdriver() {
-		// open browser from maven
-		String browser = System.getProperty("browser", Browsers.CHROME.toString());
 		
-		//chrome incognito browser
-		 // Set the path to the ChromeDriver executable
-		System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-        // Create an instance of ChromeOptions
-        ChromeOptions optionsChrome = new ChromeOptions();
-        // Add the incognito argument
-        optionsChrome.addArguments("--incognito");
-        // Initialize the ChromeDriver with the options
-        //WebDriver driver = new ChromeDriver(options);
-		
-        
-        //firefox incognito browser
-        // Set the path to the geckodriver executable
-        System.setProperty("webdriver.gecko.driver", "path/to/geckodriver");
-        // Create an instance of FirefoxOptions
-        FirefoxOptions optionsFirefox = new FirefoxOptions();
-        // Add the private argument
-        optionsFirefox.addArguments("-private");
-        // Initialize the FirefoxDriver with the options
-        //WebDriver driver = new FirefoxDriver(options);
-        
-        
-        //edge incognito browser
-       // Set the path to the EdgeDriver executable
-        System.setProperty("webdriver.edge.driver", "path/to/msedgedriver");
-        // Create an instance of EdgeOptions
-        EdgeOptions optionsEdge = new EdgeOptions();
-        // Add the InPrivate argument
-        optionsEdge.addArguments("inprivate");
-        // Initialize the EdgeDriver with the options
-        //WebDriver driver = new EdgeDriver(options);
-		
-        
-        
-		switch(Browsers.valueOf(browser))
-		//switch(browser)
+		//switch(Browsers.valueOf(browser))
+		switch(BROWSER)
 		//switch(browser.getBrowserNameWithCompanies())
 		{
 		//case "chrome" : 
@@ -108,21 +105,27 @@ public class TestBase {
 		//case "Google Chrome":
 			
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver(optionsChrome);
+			ChromeOptions ChromeOptions = new ChromeOptions();
+			setBrowserOptions(ChromeOptions);
+			driver = new ChromeDriver(ChromeOptions);
 			break;
 			
 		//case "firefox" : 
 		case FIREFOX:
 		//case "Mozilla Firefox":
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver(optionsFirefox);
+			FirefoxOptions FirefoxOptions = new FirefoxOptions();
+			setBrowserOptions(FirefoxOptions);
+			driver = new FirefoxDriver(FirefoxOptions);
 			break;
 			
 		//case "edge" : 
 		case EDGE:
 		//case "Microsoft Edge":
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver(optionsEdge);
+			EdgeOptions EdgeOptions = new EdgeOptions();
+			setBrowserOptions(EdgeOptions);
+			driver = new EdgeDriver(EdgeOptions);
 			break;
 			
 			default: 
