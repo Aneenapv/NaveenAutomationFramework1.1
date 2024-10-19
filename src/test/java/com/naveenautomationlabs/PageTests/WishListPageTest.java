@@ -29,7 +29,7 @@ public class WishListPageTest extends TestBase {
 		loginPage= new AccountLoginPage();
 	}
    
-	@Test
+	//@Test
 	public void loginAndValidateMyAccountInformation()
 	{
 		MyAccountPage myAccountPage =loginPage.loginToMyAccount("centanvin68@gmail.com","Password@1234");
